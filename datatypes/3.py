@@ -1,0 +1,1 @@
+z=list(("apple", "window", "door")) 

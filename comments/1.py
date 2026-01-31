@@ -1,0 +1,1 @@
+print("COMMENT")  #It is a comment
