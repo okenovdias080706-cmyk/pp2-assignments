@@ -1,6 +1,6 @@
 n = int(input())
 
-pow= 1
-while pow <= n:
-    print(pow, end=" ")
-    pow *= 2
+x=1
+while x <= n:
+    print(x, end=" ")
+    x*= 2

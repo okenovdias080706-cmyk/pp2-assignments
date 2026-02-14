@@ -8,6 +8,7 @@ for i in range(5):
 for num in range(6):
     if num % 2 == 0:
         continue
+    print(num)
 
 #3
 for ch in "python":
@@ -22,7 +23,7 @@ for x in [1, 2, 3]:
     print(x)
 
 #5
-for i in range(4):
+for i in range(5):
     if i == 3:
         continue
     print(i)
