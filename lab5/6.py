@@ -1,7 +1,9 @@
 import re
 
-txt=input()
-if re.search("@",txt):
-    print(txt)
+txt = input()
+pattern = r"\S+@\S+\.\S+"
+match = re.search(pattern, txt)
+if match:
+    print(match.group())
 else:
     print("No email")
