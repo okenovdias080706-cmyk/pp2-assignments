@@ -1,0 +1,9 @@
+SuperMarket
+Date: 2026-03-06 13:22
+
+Milk 250.00
+Bread 250.00
+Chocolate 250.00
+
+Total: 750.00
+Payment: Card
