@@ -1,7 +1,7 @@
 import re
 
 txt=input()
-if re.match("^Hello", txt):
+if re.search("^Hello", txt):
     print("Yes")
 else:    
     print("No")
