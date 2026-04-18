@@ -2,52 +2,72 @@ import pygame
 import datetime
 import sys
 
-# Инициализация
 pygame.init()
-WIDTH, HEIGHT = 800, 800
+
+# Экран
+WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Mickey Clock")
-clock = pygame.time.Clock()
+pygame.display.set_caption("Perfect Mickey Clock")
 
-# Важно: файлы 'mickeyclock.png', 'left_arm.png' и 'right_arm.png' должны быть в папке с кодом
-main_mickey = pygame.image.load('mickeyclock.png').convert_alpha()
-left_hand = pygame.image.load('left_arm.png').convert_alpha()   # Секундная
-right_hand = pygame.image.load('right_arm.png').convert_alpha() # Минутная
+clock_fps = pygame.time.Clock()
+
+# Суреттер
+clock_img = pygame.image.load("clock_body.png").convert_alpha()
+sec_hand = pygame.image.load("left_hand.png").convert_alpha()
+min_hand = pygame.image.load("right_hand.png").convert_alpha()
+
+clock_img = pygame.transform.scale(clock_img, (WIDTH, HEIGHT))
+
+# Центр
+center = pygame.math.Vector2(WIDTH // 2, HEIGHT // 2)
+
+# 🔥 Pivot rotate (ең дұрыс әдіс)
+def blit_rotate(surface, image, pivot, offset, angle):
+    # бұру
+    rotated_image = pygame.transform.rotozoom(image, angle, 1)
+
+    # offset айналдыру
+    rotated_offset = offset.rotate(-angle)
+
+    # жаңа позиция
+    rect = rotated_image.get_rect(center=pivot + rotated_offset)
+
+    # экранға салу
+    surface.blit(rotated_image, rect)
 
 
-def rotate_hand(surface, angle):
-    rotated_surface = pygame.transform.rotate(surface, -angle)
-    rect = rotated_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-    return rotated_surface, rect
+# 🔧 Қол ұзындығы (саусақ дәл көрсету үшін)
+sec_offset = pygame.math.Vector2(0, -250)  # секунд ұзын
+min_offset = pygame.math.Vector2(0, -180)  # минут қысқа
 
 running = True
 while running:
+    screen.fill((0, 0, 0))
+
+    # Exit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-            
+
+    # ⏱ Уақыт (smooth)
     now = datetime.datetime.now()
-    seconds = now.second
-    minutes = now.minute
 
-    sec_angle = seconds * 6
-    min_angle = minutes * 6
+    seconds = now.second + now.microsecond / 1_000_000
+    minutes = now.minute + now.second / 60
 
-    # 3. Отрисовка
-    screen.fill((255, 255, 255))
-    
-    # Рисуем циферблат (самого Микки)
-    screen.blit(main_mickey, (0, 0))
+    # 🔄 Бұрыш
+    sec_angle = -(seconds / 60) * 360
+    min_angle = -(minutes / 60) * 360
 
-    # Рисуем минутную руку (правую)
-    r_hand, r_rect = rotate_hand(right_hand, min_angle)
-    screen.blit(r_hand, r_rect)
+    # 🖼 Фон
+    screen.blit(clock_img, (0, 0))
 
-    # Рисуем секундную руку (левую)
-    l_hand, l_rect = rotate_hand(left_hand, sec_angle)
-    screen.blit(l_hand, l_rect)
+    # 🕒 Қолдар (pivot арқылы)
+    blit_rotate(screen, min_hand, center, min_offset, min_angle)
+    blit_rotate(screen, sec_hand, center, sec_offset, sec_angle)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock_fps.tick(60)
 
 pygame.quit()
+sys.exit()
