@@ -24,7 +24,7 @@ direction = (CELL_SIZE, 0)
 
 score = 0
 level = 1
-speed = 3
+speed = 7
 
 snake=[(100,100)]
 def generate_food():

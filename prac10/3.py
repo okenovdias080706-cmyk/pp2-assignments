@@ -8,7 +8,7 @@ fra= pygame.time.Clock()
 
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 600
-SPEED = 5
+SPEED = 7
 SCORE = 0
 COIN_COUNT = 0
 
