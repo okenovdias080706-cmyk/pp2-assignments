@@ -1,26 +1,28 @@
+from random import random
+
 import pygame, sys, config, game, db
 pygame.init()
 screen = pygame.display.set_mode((config.W, config.H))
-pygame.display.set_caption("Dias's Game")
+pygame.display.set_caption(" Dias's SNAKE Game" )
 f1, f2 = pygame.font.SysFont("Arial", 40), pygame.font.SysFont("Arial", 25)
-st, name, sc, lv = "MENU", "", 0, 0
+st, name, sc, lv = "MENU", "", 0, 0 
 while True:
     for e in pygame.event.get():
         if e.type == pygame.QUIT: sys.exit()
         if e.type == pygame.KEYDOWN:
             if st == "MENU":
-                if e.key == pygame.K_RETURN and name.strip(): st = "PLAY"
+                if e.key == pygame.K_RETURN and name.strip(): st = "PLAY" 
                 elif e.key == pygame.K_BACKSPACE: name = name[:-1]
-                elif e.key == pygame.K_l: st = "TOP"
+                elif e.key == pygame.K_t: st = "TOP"
                 elif len(name) < 10 and e.unicode.isprintable(): name += e.unicode
             elif st == "GAMEOVER" and e.key == pygame.K_RETURN: st = "MENU"
-            elif st == "TOP" and e.key == pygame.K_ESCAPE: st = "MENU"
-    screen.fill((0,0,0))
+            elif st == "TOP" and e.key == pygame.K_ESCAPE: st = "MENU" 
+        screen.fill(config.PURPLE)
     if st == "MENU":
-        screen.blit(f1.render("SNAKE", 1, (255,255,255)), (250, 50))
+        screen.blit(f1.render("SNAKE", 1, (200,0,0)), (250, 50)) 
         clr = (0,255,0) if (pygame.time.get_ticks()//500)%2 else (255,255,255)
         screen.blit(f1.render(f"Name: {name}_", 1, clr), (180, 150))
-        screen.blit(f2.render("ENTER - Start | L - Leaderboard", 1, (100,100,100)), (170, 250))
+        screen.blit(f2.render("ENTER - Start | T - Leaderboard", 1, (100,100,100)), (150, 250))
     elif st == "PLAY":
         sc, lv = game.run_game_loop(screen)
         db.save_game_result(name, sc, lv)

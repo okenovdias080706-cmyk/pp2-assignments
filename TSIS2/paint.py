@@ -39,13 +39,11 @@ TOOLS = [
     ("text", "Text"),
     ("eraser", "Eraser"),
 ]
-
 BRUSH_SIZES = {
     1: 2,
     2: 5,
     3: 10
 }
-
 
 def main():
     pygame.init()
@@ -272,7 +270,6 @@ def main():
             brush_size,
             eraser_size
         )
-
         screen.blit(canvas, (0, CANVAS_TOP))
 
         if drawing and tool in (
@@ -293,8 +290,6 @@ def main():
 
         pygame.display.flip()
         clock.tick(FPS)
-
-
 def layout_toolbar():
     items = []
 
@@ -493,26 +488,16 @@ def draw_preview(screen, tool, start, end, color, width):
         ]
 
         pygame.draw.polygon(screen, color, points, width)
-
-
 def is_on_canvas(pos):
     return pos[1] >= CANVAS_TOP
-
-
 def to_canvas_pos(pos):
     return pos[0], pos[1] - CANVAS_TOP
-
-
 def from_canvas_pos(pos):
     return pos[0], pos[1] + CANVAS_TOP
-
-
 def clamp_canvas_pos(pos):
     x = max(0, min(WIDTH - 1, pos[0]))
     y = max(CANVAS_TOP, min(HEIGHT - 1, pos[1]))
     return x, y - CANVAS_TOP
-
-
 if __name__ == "__main__":
     try:
         main()

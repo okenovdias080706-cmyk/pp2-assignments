@@ -2,20 +2,17 @@ import pygame
 import random
 import time
 
-# 1. Ойынды бастау (Инициализация)
 pygame.init()
 
-# Түстер (RGB форматында)
-LIGHT_GREEN = (170, 215, 81)
-DARK_GREEN = (162, 209, 73)
-SNAKE_COLOR = (70, 113, 233)
-FOOD_COLOR = (231, 71, 29)
+LIGHT_GREEN = (170, 215, 80)
+DARK_GREEN = (160, 210, 75)
+SNAKE_COLOR = (70, 110, 240)
+FOOD_COLOR = (235, 70, 30)
 TEXT_COLOR = (255, 255, 255)
-UI_GREEN = (87, 138, 52)
+UI_GREEN = (90, 140, 50)
 
-# Экран өлшемі
 WIDTH, HEIGHT = 600, 600
-BOX = 30  # Бір тордың өлшемі
+BOX = 30
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SNAKE")
 
@@ -23,29 +20,29 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 25, bold=True)
 
 def draw_grid():
-    """Шахмат тақтасының фонын салу"""
     for row in range(HEIGHT // BOX):
         for col in range(WIDTH // BOX):
             color = LIGHT_GREEN if (row + col) % 2 == 0 else DARK_GREEN
             pygame.draw.rect(screen, color, (col * BOX, row * BOX, BOX, BOX))
 
 def show_score(score):
-    """Ұпайды экранға шығару"""
     value = font.render(f"ОЧКО: {score}", True, TEXT_COLOR)
     screen.blit(value, [10, 10])
 
 def game_loop():
     game_over = False
     
-    # Жыланның бастапқы орны
     x, y = WIDTH // 2, HEIGHT // 2
     dx, dy = 0, 0
     snake_list = [[x, y]]
     length_of_snake = 1
 
-    # Алманың бастапқы орны
     foodx = round(random.randrange(0, WIDTH - BOX) / BOX) * BOX
     foody = round(random.randrange(0, HEIGHT - BOX) / BOX) * BOX
+    if foodx == x and foody == y:
+        if (x,y) in snake_list:
+            foodx = round(random.randrange(0, WIDTH - BOX) / BOX) * BOX
+            foody = round(random.randrange(0, HEIGHT - BOX) / BOX) * BOX 
 
     while not game_over:
         for event in pygame.event.get():
